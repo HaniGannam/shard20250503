@@ -1,0 +1,201 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MCP Server Registration",
+  "type": "object",
+  "required": [
+    "server_id",
+    "server_name",
+    "provider",
+    "endpoints",
+    "capabilities",
+    "repo_url",
+    "contact_info"
+  ],
+  "properties": {
+    "server_id": {
+      "type": "string",
+      "description": "Unique identifier for the server (use a UUID)"
+    },
+    "server_name": {
+      "type": "string",
+      "description": "Human-readable name for the server"
+    },
+    "provider": {
+      "type": "object",
+      "required": ["name", "github_username"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the provider/team"
+        },
+        "github_username": {
+          "type": "string",
+          "description": "GitHub username of the provider/team"
+        },
+        "website": {
+          "type": "string",
+          "format": "uri",
+          "description": "Website of the provider (optional)"
+        }
+      }
+    },
+    "endpoints": {
+      "type": "object",
+      "required": ["base_url", "invoke_path"],
+      "properties": {
+        "base_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Base URL for the MCP server (e.g., https://example.com)"
+        },
+        "invoke_path": {
+          "type": "string",
+          "description": "Path for the invoke endpoint (e.g., '/mcp/v1/invoke' or '/api/context')"
+        },
+        "version": {
+          "type": "string",
+          "description": "API version identifier (optional)"
+        },
+        "additional_endpoints": {
+          "type": "object",
+          "description": "Any additional endpoints this server provides",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "description", "parameters"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the capability (e.g., 'random_number')"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of what the capability does"
+          },
+          "parameters": {
+            "type": "object",
+            "description": "Schema of parameters accepted by this capability"
+          },
+          "response_format": {
+            "type": "object",
+            "description": "Schema of the response returned by this capability"
+          },
+          "examples": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "request": {
+                  "type": "object"
+                },
+                "response": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "repo_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL to the GitHub repository with the server code"
+    },
+    "contact_info": {
+      "type": "object",
+      "required": ["email"],
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Contact email for the server operator"
+        },
+        "discord": {
+          "type": "string",
+          "description": "Discord username (optional)"
+        }
+      }
+    },
+    "server_type": {
+      "type": "string",
+      "enum": ["standard", "crypto"],
+      "default": "standard",
+      "description": "The type of MCP server - standard or cryptocurrency-enabled"
+    },
+    "fee_structure": {
+      "type": "object",
+      "description": "Fee structure for paid services (only required for crypto servers)",
+      "properties": {
+        "fee_enabled": {
+          "type": "boolean",
+          "description": "Whether this service charges fees"
+        },
+        "fee_model": {
+          "type": "string",
+          "enum": ["fixed", "percentage", "tiered", "custom"],
+          "description": "Type of fee model"
+        },
+        "fee_details": {
+          "type": "object",
+          "description": "Details of the fee structure"
+        },
+        "fee_agreement_version": {
+          "type": "string",
+          "description": "Version of the fee agreement accepted"
+        }
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Tags to categorize the server (optional)"
+    },
+    "supported_blockchains": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["ethereum", "solana", "polygon", "arbitrum", "optimism", "other"]
+      },
+      "description": "Blockchains supported by this server (only for crypto services)"
+    },
+    "api_rate_limits": {
+      "type": "object",
+      "description": "Rate limiting information (optional)",
+      "properties": {
+        "requests_per_minute": {
+          "type": "integer",
+          "description": "Maximum number of requests allowed per minute"
+        },
+        "requests_per_day": {
+          "type": "integer",
+          "description": "Maximum number of requests allowed per day"
+        }
+      }
+    },
+    "documentation_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL to additional documentation (optional)"
+    },
+    "version": {
+      "type": "string",
+      "description": "Version of the MCP server implementation (optional)"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["development", "testing", "production"],
+      "default": "development",
+      "description": "Current development status of the server (optional)"
+    }
+  }
+}
