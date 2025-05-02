@@ -1,0 +1,93 @@
+{
+  "server_id": "a7e3fcb2-6e12-4a17-9d50-8ac1e562763e",
+  "server_name": "Weather Information Service",
+  "provider": {
+    "name": "Bob's Weather Team",
+    "github_username": "bob-weather",
+    "website": "https://bob-weather.example.com"
+  },
+  "endpoints": {
+    "base_url": "https://weather-mcp.example.com",
+    "invoke_path": "/api/weather/v1/invoke",
+    "version": "1.0",
+    "additional_endpoints": {
+      "healthcheck": "/api/weather/health",
+      "metrics": "/api/weather/metrics"
+    }
+  },
+  "capabilities": [
+    {
+      "name": "current_weather",
+      "description": "Get current weather information for a location",
+      "parameters": {
+        "location": {
+          "type": "string",
+          "description": "Name of city or coordinates (lat,long)"
+        },
+        "units": {
+          "type": "string",
+          "enum": ["metric", "imperial"],
+          "default": "metric",
+          "description": "Unit system for temperature and wind speed"
+        }
+      },
+      "response_format": {
+        "location": {
+          "type": "string",
+          "description": "Location name"
+        },
+        "temperature": {
+          "type": "number",
+          "description": "Current temperature"
+        },
+        "condition": {
+          "type": "string",
+          "description": "Weather condition (e.g., sunny, cloudy, rain)"
+        },
+        "humidity": {
+          "type": "number",
+          "description": "Humidity percentage"
+        },
+        "wind_speed": {
+          "type": "number",
+          "description": "Wind speed"
+        }
+      },
+      "examples": [
+        {
+          "request": {
+            "action": "current_weather",
+            "parameters": {
+              "location": "London",
+              "units": "metric"
+            }
+          },
+          "response": {
+            "status": "success",
+            "result": {
+              "location": "London, UK",
+              "temperature": 18.5,
+              "condition": "partly cloudy",
+              "humidity": 65,
+              "wind_speed": 12
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "repo_url": "https://github.com/bob-weather/weather-mcp-server",
+  "contact_info": {
+    "email": "bob@example.com",
+    "discord": "bob_weather#5678"
+  },
+  "server_type": "standard",
+  "tags": ["weather", "forecast", "geolocation"],
+  "api_rate_limits": {
+    "requests_per_minute": 60,
+    "requests_per_day": 10000
+  },
+  "documentation_url": "https://docs.bob-weather.example.com",
+  "version": "1.0.0",
+  "status": "production"
+}
