@@ -1,0 +1,84 @@
+{
+  "server_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+  "server_name": "TopNewsFetcher",
+  "provider": {
+    "name": "HaniGannam",
+    "github_username": "HaniGannam"
+  },
+  "endpoints": {
+    "base_url": "https://apitest.stakesphere.io",
+    "invoke_path": "/mcp"
+  },
+  "capabilities": [
+    {
+      "name": "get_top_news",
+      "description": "Fetch top news articles based on time window and count.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "time": { 
+            "type": "string", 
+            "enum": ["10 min", "30 min", "1 hr", "12 hr", "24 hr"],
+            "default": "1 hr",
+            "description": "Time window for news articles"
+          },
+          "count": { 
+            "type": "integer", 
+            "minimum": 1,
+            "maximum": 10,
+            "default": 5,
+            "description": "Number of articles to return"
+          }
+        },
+        "required": ["time", "count"]
+      },
+      "response_format": {
+        "type": "object",
+        "properties": {
+          "articles": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": { "type": "string" },
+                "source": { "type": "string" },
+                "link": { "type": "string" }
+              },
+              "required": ["title", "source", "link"]
+            }
+          }
+        }
+      },
+      "examples": [
+        {
+          "request": {
+            "time": "1 hr",
+            "count": 3
+          },
+          "response": {
+            "articles": [
+              {
+                "title": "Bitcoin king: Why is Bhutan betting on crypto?",
+                "source": "Al Jazeera English",
+                "link": "https://www.aljazeera.com/economy/2025/4/14/bitcoin-king-why-is-bhutan-betting-on-crypto"
+              },
+              {
+                  "title": "Can You Still Mine Ethereum in 2025? Top Altcoins Miners Are Targeting!",
+                  "source": "Unknown Source",
+                  "link": "https://ambcrypto.com/blog/can-you-still-mine-ethereum-in-2025-top-altcoins-miners-are-targeting/"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "repo_url": "https://github.com/HaniGannam/top-news-fetcher",
+  "contact_info": {
+    "email": "tk.sonu1@gmail.com"
+  },
+  "server_type": "standard",
+  "tags": ["News", "NLP", "MCP"],
+  "status": "development",
+  "version": "1.0.0"
+}
